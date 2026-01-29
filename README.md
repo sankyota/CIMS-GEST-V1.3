@@ -16,8 +16,7 @@ CIaMS GESTOR no es solo un inventario; es un ecosistema completo para departamen
 ### 🎨 Hub de Configuración y Personalización
 Un nuevo módulo centralizado donde el usuario puede personalizar su experiencia sin afectar el backend:
 * **Editor de Temas**: Cambia el color de acento de toda la aplicación (Azul, Morado, Rojo, Verde, Amarillo) con persistencia automática.
-* **Notas Rápidas (Sticky Notes)**: Bloc de notas integrado en el navegador para apuntar series, IPs o recordatorios temporales.
-* **Zona Arcade 🕹️**: Módulo de entretenimiento integrado (Snake y Pong vs CPU) para pausas activas, desarrollado en Canvas HTML5.
+* **Zona Arcade 🕹️**: Módulo de entretenimiento integrado  para pausas activas, desarrollado en Canvas HTML5.
 
 ### 🛡️ Seguridad y Rendimiento
 * **Cumplimiento CSP**: Refactorización total del frontend para cumplir con *Content Security Policy* (eliminación de scripts inline).
