@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Configuración del Sistema</title>
+    <link rel="stylesheet" href="assets/styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body>
+    <nav class="navbar">
+    <a class="navbar-brand" href="/">
+        <div class="navbar-brand"> 🖥️ CIaMS GESTOR <span class="version">V1</span> </div>
+    </a>
+    <div class="navbar-links">
+        <a href="/ver-activos" class="nav-link">
+            📦 <span>Activos</span>
+        </a>
+        <a href="/consultar-empleados" class="nav-link">
+            👥 <span>Empleados</span>
+        </a>
+        <a href="/incidencias.html" class="nav-link">
+            ⚠️ <span>Incidencias</span>
+        </a>
+        <a href="/configuracion.html" class="nav-link">
+            ⚙️ <span>Configuración</span>
+        </a>
+    </div>
+</nav>
+
+    <div class="container">
+        <a href="/" class="back-button">⬅️ Regresar al Inicio</a>
+        <h1 class="title">⚙️ Configuración y Herramientas</h1>
+
+        <div class="config-grid">
+            
+            <div class="config-card" id="card-usuarios">
+                <div class="config-icon">👥</div>
+                <div class="config-title">Gestión de Usuarios</div>
+                <small>Crear nuevos accesos</small>
+            </div>
+
+            <div class="config-card" id="card-colores">
+                <div class="config-icon">🎨</div>
+                <div class="config-title">Temas y Colores</div>
+                <small>Personaliza la interfaz</small>
+            </div>
+
+            <div class="config-card" id="card-version">
+                <div class="config-icon">ℹ️</div>
+                <div class="config-title">Acerca de CIMS</div>
+                <small>Versión y Créditos</small>
+            </div>
+
+            <div class="config-card" id="card-juegos">
+                <div class="config-icon">🕹️</div>
+                <div class="config-title">Zona Arcade</div>
+                <small>Arcade</small>
+            </div>
+
+        </div>
+    </div>
+
+    <div id="gameModal" class="modal-overlay">
+        <div class="modal-content" style="width: 500px; height: auto;">
+            <span class="close-modal" id="close-game">&times;</span>
+            <h3 id="gameTitle">Juego</h3>
+            <div id="gameContainer">
+    <p>Selecciona un juego:</p>
+    <button class="btn" id="btn-snake">🐍 Snake</button>
+    <button class="btn" id="btn-pong" style="background-color: #e67e22 !important;">🏓 Pong</button>
+</div>
+        </div>
+    </div>
+
+    <script src="auth.js"></script>
+    <script src="configuracion.js"></script>
+    <script src="chatbot.js"></script>
+</body>
+</html>

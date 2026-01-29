@@ -73,19 +73,16 @@ function mostrarEmpleados(lista = empleadosFiltrados) {
     const tr = document.createElement("tr");
     const fecha = emp.fecha_ingreso ? emp.fecha_ingreso.split("T")[0] : "";
     
-    // Buscar ID del área basado en el nombre (Tu lógica actual)
     const nombreArea = emp.area || emp.nombre_area || "Sin Área"; 
     const areaObj = listaAreas.find(a => a.nombre === nombreArea);
     const areaIdEncontrado = areaObj ? areaObj.id : "";
 
-    // 1. Crear celdas de forma segura
     const tdId = document.createElement('td');
     tdId.textContent = emp.id;
     
     const tdCodigo = document.createElement('td');
     tdCodigo.textContent = emp.codigo || "N/A";
     
-    // ✅ AQUÍ ESTÁ LA PROTECCIÓN: textContent ignora etiquetas HTML maliciosas
     const tdNombre = document.createElement('td');
     tdNombre.textContent = emp.nombre; 
     
@@ -94,19 +91,17 @@ function mostrarEmpleados(lista = empleadosFiltrados) {
     
     const tdArea = document.createElement('td');
     tdArea.textContent = nombreArea;
-    tdArea.setAttribute("data-area-id", areaIdEncontrado); // Guardamos el ID para editar
+    tdArea.setAttribute("data-area-id", areaIdEncontrado); 
     
     const tdFecha = document.createElement('td');
     tdFecha.textContent = fecha || "";
 
-    // 2. Botones (HTML estático seguro)
     const tdAcciones = document.createElement('td');
     tdAcciones.innerHTML = `
         <button type="button" class="btn-editar">Modificar</button>
         <button type="button" class="btn-guardar" style="display:none;">Guardar</button>
     `;
 
-    // 3. Ensamblar fila
     tr.appendChild(tdId);
     tr.appendChild(tdCodigo);
     tr.appendChild(tdNombre);
@@ -120,6 +115,7 @@ function mostrarEmpleados(lista = empleadosFiltrados) {
 
   renderPaginationControls();
 }
+
 function renderPaginationControls() {
     let paginationContainer = document.getElementById("pagination-controls");
     if (!paginationContainer) {
@@ -167,19 +163,16 @@ function activarEdicion(btn) {
   btn.style.display = "none";
   if(btnGuardar) btnGuardar.style.display = "inline-block";
 
-  // Índices: 0=ID, 1=Codigo, 2=Nombre, 3=Correo, 4=Area, 5=Fecha, 6=Acciones
   const nombreActual = celdas[2].innerText;
   const correoActual = celdas[3].innerText;
-  const areaActualId = celdas[4].getAttribute("data-area-id"); // Recuperamos el ID que buscamos antes
+  const areaActualId = celdas[4].getAttribute("data-area-id"); 
   const fechaActual = celdas[5].innerText;
 
   celdas[2].innerHTML = `<input type="text" class="input-edit" value="${nombreActual}" />`;
   celdas[3].innerHTML = `<input type="email" class="input-edit" value="${correoActual}" />`;
   
-  // Construir Select de Área
   let opcionesArea = '<option value="">Seleccione Área</option>';
   listaAreas.forEach(area => {
-      // Comparamos IDs para pre-seleccionar
       const selected = (String(area.id) === String(areaActualId)) ? 'selected' : '';
       opcionesArea += `<option value="${area.id}" ${selected}>${area.nombre}</option>`;
   });
@@ -256,7 +249,7 @@ async function guardarCambios(btn) {
   }
 }
 
-// EXPORTACIÓN (Sin cambios funcionales, solo se asegura que funcione)
+// EXPORTACIÓN INDIVIDUAL (Para usar con el Modal)
 async function exportarEmpleadosPDF() {
     try {
         const { jsPDF } = window.jspdf;
@@ -303,11 +296,7 @@ function exportarEmpleadosExcel() {
       } catch (error) { console.error("Error Excel:", error); }
 }
 
-async function exportarTodo() {
-  await exportarEmpleadosPDF();
-  exportarEmpleadosExcel();
-}
-
+// --- LÓGICA DEL MODAL DE EXPORTACIÓN (VERSIÓN SEGURA) ---
 document.addEventListener("DOMContentLoaded", async () => {
   await cargarAreas();
   cargarEmpleados();
@@ -326,13 +315,56 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
   }
 
-  const btnExportar = document.getElementById("btn-exportar-todo");
-  if (btnExportar) btnExportar.addEventListener("click", exportarTodo);
-
   const tablaEmpleados = document.getElementById("tabla-empleados");
   tablaEmpleados.addEventListener("click", (e) => {
     const target = e.target; 
     if (target.classList.contains("btn-editar")) activarEdicion(target);
     if (target.classList.contains("btn-guardar")) guardarCambios(target);
   });
+
+  // Lógica del Modal (AQUÍ DENTRO)
+  const exportModal = document.getElementById("exportModal");
+  const btnOpen = document.getElementById("btn-exportar-todo");
+  const btnClose = document.getElementById("modal-close");
+  const btnPdf = document.getElementById("btn-confirm-pdf");
+  const btnExcel = document.getElementById("btn-confirm-excel");
+
+  // Abrir Modal
+  if (btnOpen) {
+      btnOpen.addEventListener("click", () => {
+          if (exportModal) exportModal.style.display = "flex";
+      });
+  }
+
+  // Cerrar Modal
+  const cerrarModal = () => {
+      if (exportModal) exportModal.style.display = "none";
+  };
+
+  if (btnClose) btnClose.addEventListener("click", cerrarModal);
+
+  // Cerrar si clic fuera
+  window.addEventListener("click", (event) => {
+      if (event.target === exportModal) cerrarModal();
+  });
+
+  // Acción PDF
+  if (btnPdf) {
+      btnPdf.addEventListener("click", async () => {
+          cerrarModal();
+          Swal.fire({ title: 'Generando PDF...', didOpen: () => Swal.showLoading() });
+          await exportarEmpleadosPDF(); 
+          Swal.close();
+      });
+  }
+
+  // Acción Excel
+  if (btnExcel) {
+      btnExcel.addEventListener("click", async () => {
+          cerrarModal();
+          Swal.fire({ title: 'Generando Excel...', didOpen: () => Swal.showLoading() });
+          exportarEmpleadosExcel(); 
+          Swal.close();
+      });
+  }
 });

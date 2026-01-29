@@ -100,6 +100,16 @@ const optionalAuth = (req, res, next) => {
         next();
     }
 };
+// --- APLICAR TEMA DE COLOR AL CARGAR ---
+document.addEventListener("DOMContentLoaded", () => {
+    const primary = localStorage.getItem('cims_primary');
+    const accent = localStorage.getItem('cims_accent');
+    
+    if (primary && accent) {
+        document.documentElement.style.setProperty('--primary-color', primary);
+        document.documentElement.style.setProperty('--accent-color', accent);
+    }
+});
 
 module.exports = {
     authenticateToken,

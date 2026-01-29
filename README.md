@@ -1,130 +1,125 @@
-# 🖥️ CIaMS GESTOR V1
+# 🖥️ CIaMS GESTOR v1.3 (Enterprise Edition)
 
-Sistema integral para la gestión de activos de TI, control de inventario, incidencias y mantenimiento, potenciado por Inteligencia Artificial.
+**Sistema Integral de Gestión de Activos TI, Incidencias y Capital Humano potenciado por IA.**
 
-![Estado del Proyecto](https://img.shields.io/badge/Estado-Producción-success)
-![Versión](https://img.shields.io/badge/Versión-1.0.0-blue)
-![Tech Stack](https://img.shields.io/badge/Stack-Node.js%20|%20MySQL%20|%20Groq%20AI-blueviolet)
+![Versión](https://img.shields.io/badge/Versión-1.3.0-blue?style=for-the-badge)
+![Estado](https://img.shields.io/badge/Estado-Producción-success?style=for-the-badge)
+![Tech Stack](https://img.shields.io/badge/Stack-Node.js%20|%20MySQL%20|%20Groq%20AI-blueviolet?style=for-the-badge)
+![Seguridad](https://img.shields.io/badge/Seguridad-JWT%20|%20Helmet%20|%20BCrypt-red?style=for-the-badge)
 
-## 🚀 Nuevas Características (v1.0)
-
-### 🤖 Integración de Inteligencia Artificial
-- **Chatbot Guía ("CIMS-BOT")**: Asistente virtual flotante disponible 24/7 que responde dudas sobre el funcionamiento del sistema, flujos de trabajo y significados de iconos/colores.
-- **Diagnóstico Inteligente**: Módulo en la gestión de incidencias que analiza la descripción del problema y sugiere:
-  - 🩺 Diagnóstico técnico probable.
-  - 🛠️ Pasos de solución recomendados.
-  - 📉 Nivel de riesgo (Bajo/Medio/Alto).
-
-### 📊 Gestión Visual de Activos
-- **Alertas de Desgaste**: La tabla de activos ahora incluye una columna **"N° Incidencias"**.
-  - 🔴 **Icono Rojo 🛠️**: Indica activos problemáticos con historial de fallas reportadas.
-  - ⚪ **Gris**: Indica equipos estables sin reportes previos.
-- **Filtros Avanzados**: Búsqueda por área, estado y asignación en tiempo real.
-
-### 🛡️ Auditoría y Seguridad
-- **Manejo de Errores Centralizado**: Sistema robusto que captura y estandariza errores de validación, base de datos y autenticación.
-- **Protección**: Implementación de Rate Limiting, Helmet (Headers seguros) y prevención de contaminación de parámetros (HPP).
+CIaMS GESTOR no es solo un inventario; es un ecosistema completo para departamentos de TI que centraliza el control de hardware, el soporte técnico y la administración de personal, con una interfaz moderna y personalizable.
 
 ---
 
-## 📋 Módulos Principales
+## 🚀 Novedades de la Versión 1.3
 
-1. **Gestión de Activos**: CRUD completo, asignación a empleados, control de estados (Disponible, Pérdida, Mantenimiento).
-2. **Gestión de Empleados**: Registro con validación de datos y asignación automática de áreas.
-3. **Mesa de Ayuda (Incidencias)**: 
-   - Ciclo de vida completo: Reporte ➝ Diagnóstico IA ➝ Mantenimiento ➝ Solución.
-   - Control de tiempos (Fecha reporte vs. Fecha solución).
-4. **Usuarios y Roles**: Sistema de login seguro (JWT) con roles de Administrador y Usuario Estándar.
+### 🎨 Hub de Configuración y Personalización
+Un nuevo módulo centralizado donde el usuario puede personalizar su experiencia sin afectar el backend:
+* **Editor de Temas**: Cambia el color de acento de toda la aplicación (Azul, Morado, Rojo, Verde, Amarillo) con persistencia automática.
+* **Notas Rápidas (Sticky Notes)**: Bloc de notas integrado en el navegador para apuntar series, IPs o recordatorios temporales.
+* **Zona Arcade 🕹️**: Módulo de entretenimiento integrado (Snake y Pong vs CPU) para pausas activas, desarrollado en Canvas HTML5.
 
-## 🛠️ Tecnologías
+### 🛡️ Seguridad y Rendimiento
+* **Cumplimiento CSP**: Refactorización total del frontend para cumplir con *Content Security Policy* (eliminación de scripts inline).
+* **Exportación Avanzada**: Nuevo sistema de modales para exportar reportes en PDF o Excel de manera selectiva.
 
-- **Backend**: Node.js, Express.
-- **Base de Datos**: MySQL (Uso intensivo de Stored Procedures).
-- **IA**: OpenAI SDK conectado a **Groq (Llama-3.3-70b)** para inferencia de alta velocidad.
-- **Frontend**: HTML5, CSS3 (Diseño Responsive), JavaScript Vanilla.
-- **Seguridad**: BCrypt, JWT, Helmet, Express-Rate-Limit.
+---
 
-## ⚙️ Instalación y Configuración
+## 🧠 Características Principales
 
-1. **Clonar el repositorio**:
-   ```bash
-   git clone <url-del-repo>
-   cd cims-gestor
-Instalar dependencias:
+### 1. Inteligencia Artificial (Groq / Llama-3)
+* **Diagnóstico Técnico Automático**: Al reportar una incidencia, la IA analiza la descripción y genera:
+    * 🩺 Diagnóstico probable.
+    * 🛠️ Pasos de solución paso a paso.
+    * 📉 Nivel de riesgo (Bajo/Medio/Alto).
+* **Chatbot Guía**: Asistente virtual 24/7 que responde preguntas sobre el uso del sistema y procesos internos.
 
-Bash
-npm install
-Configurar Variables de Entorno (.env): Crea un archivo .env en la raíz con lo siguiente:
+### 2. Gestión de Activos e Incidencias
+* **Trazabilidad**: Historial completo de quién tiene qué equipo y en qué área.
+* **Semáforo de Estado**: Indicadores visuales para equipos "Por solucionar" (Amarillo) o "Solucionados" (Verde).
+* **Alertas de Desgaste**: Icono rojo 🛠️ automático en activos que acumulan muchas fallas.
 
-Fragmento de código
-# Base de Datos
-DB_HOST=tu_host
-DB_USER=tu_usuario
-DB_PASSWORD=tu_password
-DB_NAME=gestcims_gestionactivosti
+### 3. Seguridad Empresarial
+* **Autenticación**: Login seguro con JWT (JSON Web Tokens) almacenados en Cookies HTTP-Only.
+* **Protección**: Middlewares contra ataques de fuerza bruta (Rate Limit), cabeceras seguras (Helmet) y saneamiento de datos.
 
-# Servidor
-PORT=3000
-NODE_ENV=production
+---
 
-# Seguridad
-JWT_SECRET=tu_clave_secreta_super_segura
+## 🛠️ Stack Tecnológico
 
-# Inteligencia Artificial (Groq Cloud)
-OPENAI_API_KEY=gsk_tu_api_key_de_groq_aqui
-Iniciar:
+* **Backend**: Node.js, Express.js.
+* **Base de Datos**: MySQL (Optimizado con Stored Procedures).
+* **Frontend**: HTML5, CSS3 (Variables CSS para temas), JavaScript Vanilla (ES6+).
+* **IA Engine**: SDK de OpenAI conectado a la nube de Groq (Modelo Llama-3.3-70b).
+* **Librerías Clave**: `sweetalert2` (UI), `jspdf` & `xlsx` (Reportes), `bcrypt` (Cifrado).
 
-Bash
-npm start
-📄 Estructura de Directorios Clave
-├── middleware/         # 🛡️ Lógica de seguridad y manejo de errores
-├── public/             # 🎨 Frontend (HTML/JS/CSS)
-│   ├── chatbot.js      # Lógica del asistente virtual
-│   └── ...
-├── routes/             # 🛣️ Rutas de la API
-│   ├── iaRoutes.js     # Conexión con el servicio de IA
-│   └── ...
-├── utils/              # 🔧 Utilidades y clases de error personalizadas
-└── server.js           # Punto de entrada
-👨‍💻 Autor
-Sistema desarrollado para optimizar la gestión de infraestructura TI empresarial.
+---
+
+## ⚙️ Instalación y Despliegue
+
+### Requisitos Previos
+* Node.js v16+
+* MySQL Server 8.0+
+
+### Pasos
+
+1.  **Clonar el repositorio:**
+    ```bash
+    git clone [https://github.com/tu-usuario/ciams-gestor.git](https://github.com/tu-usuario/ciams-gestor.git)
+    cd ciams-gestor
+    ```
+
+2.  **Instalar dependencias:**
+    ```bash
+    npm install
+    ```
+
+3.  **Configurar Variables de Entorno:**
+    Crea un archivo `.env` en la raíz:
+    ```env
+    # Servidor
+    PORT=3000
+    NODE_ENV=development
+
+    # Base de Datos
+    DB_HOST=localhost
+    DB_USER=root
+    DB_PASSWORD=tu_password
+    DB_NAME=gestionactivosti
+
+    # Seguridad (¡Cambiar en producción!)
+    JWT_SECRET=super_secreto_key_123
+
+    # Inteligencia Artificial (Groq Cloud)
+    OPENAI_API_KEY=gsk_tu_api_key_de_groq
+    ```
+
+4.  **Iniciar la aplicación:**
+    ```bash
+    # Modo desarrollo
+    npm run dev
+
+    # Modo producción
+    npm start
+    ```
+
+5.  **Acceso:**
+    * Navegador: `http://localhost:3000`
+    * Credenciales Admin (por defecto si ejecutaste el script SQL): `admin` / `admin123`
+
+---
+
+## 📂 Estructura del Proyecto
+
+ciams-gestor/ ├── config/ # Conexiones a BD y JWT ├── middleware/ # Capa de seguridad (Auth, ErrorHandler, RateLimit) ├── public/ # Frontend (HTML, CSS, JS Cliente) │ ├── assets/ # Estilos e imágenes │ ├── configuracion.js # Lógica del Hub v1.3 │ └── ... ├── routes/ # API Endpoints ├── utils/ # Clases de error y helpers ├── server.js # Punto de entrada └── README.md # Documentación
 
 
 ---
 
-### 📄 Archivo 2: `DEPLOY.md`
-*(Actualiza la sección "C. Crear Archivo .env" para incluir la IA)*
+## 🤝 Contribución y Soporte
 
-```markdown
-#### C. Crear Archivo .env
-Crea un archivo `.env` en la raíz del proyecto. **¡IMPORTANTE!** Ahora se requiere la clave de API para la IA.
+Sistema desarrollado para optimizar la infraestructura ofimatica.
+Para soporte, contactar al equipo de desarrollo interno o crear un *Issue* en el repositorio.
 
-```env
-# Configuración de Base de Datos
-DB_HOST=tu_host_de_mysql
-DB_USER=tu_usuario_mysql
-DB_PASSWORD=tu_contraseña_mysql
-DB_NAME=nombre_de_tu_base_de_datos
-DB_PORT=3306
-
-# Configuración del Servidor
-PORT=3000
-NODE_ENV=production
-ALLOWED_ORIGINS=[https://tu-dominio.com](https://tu-dominio.com)
-
-# Seguridad (⚠️ CAMBIAR por una clave única)
-JWT_SECRET=tu_clave_secreta_super_segura_aqui
-
-# Inteligencia Artificial (Groq)
-# Requerido para el Chatbot y el Diagnóstico de Incidencias
-OPENAI_API_KEY=gsk_tu_clave_api_de_groq
-📄 Archivo 3: ERROR_HANDLING.md
-(Añade esto al final de la sección "Componentes" para documentar la IA)
-
-Markdown
-### 4. Manejo de Errores en Servicios Externos (IA)
-
-Para las integraciones con APIs externas (como Groq/OpenAI en `iaRoutes.js`), el sistema implementa:
-- **Bloques Try-Catch**: Capturan fallos de red o de la API externa.
-- **Fallbacks**: Si la IA falla, el sistema devuelve un mensaje amigable al usuario (`500: El asistente está en mantenimiento`) sin tumbar el servidor.
-- **Logging**: Se registra el error específico de la API en la consola del servidor para depuración, pero no se expone al cliente.
+---
+**© 2026 CIaMS GESTOR** - *Versión 1.3 Stable*

@@ -1,6 +1,69 @@
 /* =========================================================
    TUS ESTILOS ORIGINALES (INTACTOS PARA DESKTOP)
    ========================================================= */
+
+/* --- VARIABLES GLOBALES (TEMAS) --- */
+:root {
+    --primary-color: #2d3e50; /* Color por defecto */
+    --accent-color: #415d7b;
+    --bg-color: lightgray;
+}
+
+/* IMPORTANTE: Asegúrate de que los elementos usen var(--...) */
+body, html { background-color: var(--bg-color) !important; }
+.navbar { background-color: var(--primary-color) !important; }
+.title { color: var(--primary-color) !important; }
+.back-button { color: var(--primary-color) !important; }
+.data-table th { background-color: var(--primary-color) !important; }
+
+/* Botones */
+button.btn, .search-bar button, .chat-button, .chat-header, .btn-update, .pagination-controls button, .btn-export-option {
+    background-color: var(--accent-color) !important;
+}
+.chat-footer button { background-color: var(--accent-color) !important; }
+.msg-user { background-color: var(--accent-color) !important; }
+
+/* --- ESTILOS DE LA PÁGINA DE CONFIGURACIÓN --- */
+.config-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 30px;
+}
+
+.config-card {
+    background: white;
+    width: 250px;
+    height: 200px;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: transform 0.3s;
+    text-decoration: none;
+    color: #333;
+    border: 1px solid #eee;
+}
+
+.config-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+}
+
+.config-icon { font-size: 50px; margin-bottom: 15px; }
+.config-title { font-size: 18px; font-weight: bold; }
+
+/* --- MODAL DE JUEGOS (CANVAS) --- */
+#gameCanvas {
+    background-color: #000;
+    display: block;
+    margin: 0 auto;
+    border: 2px solid #fff;
+}
 /* Reset básico */
 body, html {
     background-color: lightgray !important;
@@ -1922,4 +1985,77 @@ a:visited {
     color: #666;
     font-size: 12px;
     margin-left: 10px;
+}
+
+/* --- MODAL DE EXPORTACIÓN --- */
+.modal-overlay {
+    display: none; /* Oculto por defecto */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Fondo oscuro transparente */
+    z-index: 10000; /* Por encima de todo, incluso del chat */
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background-color: white;
+    padding: 30px;
+    border-radius: 15px;
+    width: 300px;
+    text-align: center;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+    position: relative;
+    animation: popIn 0.3s ease;
+}
+
+@keyframes popIn {
+    from { transform: scale(0.8); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+.close-modal {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 24px;
+    font-weight: bold;
+    color: #aaa;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.close-modal:hover { color: #333; }
+
+.export-options {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.btn-export-option {
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: transform 0.2s, background-color 0.2s;
+    font-weight: bold;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.btn-pdf { background-color: #dc3545; } /* Rojo PDF */
+.btn-excel { background-color: #28a745; } /* Verde Excel */
+
+.btn-export-option:hover {
+    transform: translateY(-2px);
+    opacity: 0.9;
 }

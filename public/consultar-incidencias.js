@@ -176,7 +176,7 @@ const mostrarPopupDescripcion = (textoCompleto) => {
 
 // --- CARGAR INCIDENCIAS ---
 const loadIncidencias = async (filter = "") => {
-  if(tbody.innerHTML === "") tbody.innerHTML = "<tr><td colspan='9'>Cargando incidencias...</td></tr>"; // colspan 9 por la nueva columna
+  if(tbody.innerHTML === "") tbody.innerHTML = "<tr><td colspan='9'>Cargando incidencias...</td></tr>"; 
 
   const incidencias = await getIncidencias();
   
@@ -248,7 +248,7 @@ const loadIncidencias = async (filter = "") => {
         }
     }
 
-    // 1. Columnas Base (Hasta Mantenimiento)
+    // 1. Columnas Base
     row.innerHTML = `
       <td>
         <a href="#" class="activo-link" data-itemcode="${incidencia.itemcode_popup}" style="color:#007bff; font-weight:bold; text-decoration:underline;">
@@ -265,14 +265,14 @@ const loadIncidencias = async (filter = "") => {
       <td>${celdaFechaSolucion}</td>
     `;
 
-    // 2. NUEVA COLUMNA: Diagnóstico IA (Entre Mantenimiento y Estado)
+    // 2. Columna Diagnóstico IA
     const iaCell = document.createElement("td");
-    iaCell.style.textAlign = "center"; // Centrado
+    iaCell.style.textAlign = "center"; 
 
     const btnIA = document.createElement("button");
     btnIA.textContent = "🧠 Diagnóstico"; 
     btnIA.title = "Consultar a la IA";
-    btnIA.style.backgroundColor = "#6f42c1"; // Morado IA
+    btnIA.style.backgroundColor = "#6f42c1"; 
     btnIA.style.color = "white";
     btnIA.style.border = "none";
     btnIA.style.borderRadius = "20px";
@@ -344,7 +344,7 @@ const loadIncidencias = async (filter = "") => {
     estadoCell.innerHTML = `<span class="estado-equipo ${incidencia.estado_equipo}">${incidencia.estado_equipo}</span>`;
     row.appendChild(estadoCell);
 
-    // 4. Columna Acciones (Solo Iniciar/Finalizar)
+    // 4. Columna Acciones
     const accionesCell = document.createElement("td");
     
     const iniciarBtn = document.createElement("button");
@@ -386,7 +386,7 @@ const loadIncidencias = async (filter = "") => {
 
     tbody.appendChild(row);
 
-    // Eventos Links de la fila
+    // Eventos Links
     const linkActivo = row.querySelector(".activo-link");
     if (linkActivo) {
       linkActivo.addEventListener("click", async (e) => {
@@ -455,10 +455,10 @@ const renderPaginationControls = () => {
     paginationContainer.appendChild(nextButton);
 };
 
-// --- EXPORTACIÓN (Actualizada para incluir columna IA o mantener formato) ---
+// --- FUNCIONES EXPORTAR (INDIVIDUALES) ---
 async function exportarPDFIncidencias() {
   const incidencias = await getIncidencias();
-  // ... Filtros ...
+  
   const filter = searchInput.value.trim().toLowerCase();
   const selectedArea = areaFilter ? areaFilter.value.toLowerCase() : "";
   const estadoEl = document.getElementById("filtro-estado");
@@ -490,7 +490,7 @@ async function exportarPDFIncidencias() {
     i.descripcion,
     i.fecha_reporte,
     i.fin_mantenimiento || "No solucionado",
-    "IA DISPONIBLE", // Marcador en PDF
+    "IA DISPONIBLE", 
     i.estado_equipo
   ]);
 
@@ -521,7 +521,7 @@ async function exportarExcelIncidencias() {
   );
 
   const wsData = [
-    ["Activo", "Área", "Empleado", "Descripción", "Fecha", "Finalización", "Estado"], // Omitimos IA en excel simple
+    ["Activo", "Área", "Empleado", "Descripción", "Fecha", "Finalización", "Estado"], 
     ...filtradas.map(i => [
       i.nombre_activo,
       i.nombre_area,
@@ -539,43 +539,59 @@ async function exportarExcelIncidencias() {
   XLSX.writeFile(wb, "reporte_incidencias.xlsx");
 }
 
-async function exportarTodo() {
-  await exportarPDFIncidencias();
-  await exportarExcelIncidencias();
-}
-
-window.exportarExcelIncidencias = exportarExcelIncidencias;
-
+// --- LÓGICA DEL MODAL DE EXPORTACIÓN (VERSIÓN SEGURA) ---
 document.addEventListener("DOMContentLoaded", () => {
-  loadIncidencias();
+    // 1. Cargar Datos
+    loadIncidencias();
 
-  searchButton.addEventListener("click", () => {
-      currentPage = 1;
-      loadIncidencias(searchInput.value.trim());
-  });
-  
-  searchInput.addEventListener("input", () => {
-      currentPage = 1;
-      loadIncidencias(searchInput.value.trim());
-  });
+    // 2. Filtros y Búsqueda
+    if (searchButton) searchButton.addEventListener("click", () => { currentPage = 1; loadIncidencias(searchInput.value.trim()); });
+    if (searchInput) searchInput.addEventListener("input", () => { currentPage = 1; loadIncidencias(searchInput.value.trim()); });
+    if (areaFilter) areaFilter.addEventListener("change", () => { currentPage = 1; loadIncidencias(searchInput.value.trim()); });
+    if (document.getElementById("filtro-estado")) {
+        document.getElementById("filtro-estado").addEventListener("change", () => { currentPage = 1; loadIncidencias(searchInput.value.trim()); });
+    }
 
-  if (areaFilter) {
-    areaFilter.addEventListener("change", () => {
-        currentPage = 1;
-        loadIncidencias(searchInput.value.trim());
+    // 3. Modal de Exportación (Lógica segura sin onclick)
+    const exportModal = document.getElementById("exportModal");
+    const btnOpen = document.getElementById("btn-exportar-todo");
+    const btnClose = document.getElementById("modal-close");
+    const btnPdf = document.getElementById("btn-confirm-pdf");
+    const btnExcel = document.getElementById("btn-confirm-excel");
+
+    // Abrir
+    if (btnOpen) {
+        btnOpen.addEventListener("click", () => {
+            if (exportModal) exportModal.style.display = "flex";
+        });
+    }
+
+    // Cerrar
+    const cerrarModal = () => { if (exportModal) exportModal.style.display = "none"; };
+    if (btnClose) btnClose.addEventListener("click", cerrarModal);
+    
+    // Cerrar clic fuera
+    window.addEventListener("click", (event) => {
+        if (event.target === exportModal) cerrarModal();
     });
-  }
 
-  const estadoFilter = document.getElementById("filtro-estado");
-  if (estadoFilter) {
-    estadoFilter.addEventListener("change", () => {
-        currentPage = 1;
-        loadIncidencias(searchInput.value.trim());
-    });
-  }
+    // Acción PDF
+    if (btnPdf) {
+        btnPdf.addEventListener("click", async () => {
+            cerrarModal();
+            Swal.fire({ title: 'Generando PDF...', didOpen: () => Swal.showLoading() });
+            await exportarPDFIncidencias(); 
+            Swal.close();
+        });
+    }
 
-  const btnExportar = document.getElementById("btn-exportar-todo");
-  if (btnExportar) {
-    btnExportar.addEventListener("click", exportarTodo);
-  }
+    // Acción Excel
+    if (btnExcel) {
+        btnExcel.addEventListener("click", async () => {
+            cerrarModal();
+            Swal.fire({ title: 'Generando Excel...', didOpen: () => Swal.showLoading() });
+            await exportarExcelIncidencias(); 
+            Swal.close();
+        });
+    }
 });

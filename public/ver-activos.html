@@ -21,8 +21,8 @@
         <a href="/incidencias.html" class="nav-link">
             ⚠️ <span>Incidencias</span>
         </a>
-        <a href="/registrar-usuario" class="nav-link">
-            ⚙️
+        <a href="/configuracion.html" class="nav-link">
+            ⚙️ <span>Configuración</span>
         </a>
     </div>
 </nav>
@@ -34,7 +34,7 @@
             <label for="search">Buscar:</label>
             <input type="text" id="search" placeholder="Escriba aquí...">
             <button id="search-button">🔎</button>
-            <button id="btn-exportar-todo">📥 Exportar PDF + Excel</button>
+            <button id="btn-exportar-todo">📥 Exportar PDF o Excel</button>
         </div>
 
         <select id="filtro-area">
@@ -81,11 +81,25 @@
         
         <div id="pagination-controls" class="pagination-controls"></div>
     </div>
-
+<div id="exportModal" class="modal-overlay">
+    <div class="modal-content">
+        <span class="close-modal" id="modal-close">&times;</span>
+        <h3>📥 Exportar Datos</h3>
+        <p>Selecciona el formato:</p>
+        <div class="export-options">
+            <button id="btn-confirm-pdf" class="btn-export-option btn-pdf">
+                📄 Descargar PDF
+            </button>
+            <button id="btn-confirm-excel" class="btn-export-option btn-excel">
+                📊 Descargar Excel
+            </button>
+        </div>
+    </div>
+</div>
     <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/jspdf-autotable@3.5.25/dist/jspdf.plugin.autotable.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="auth.js"></script>
     <script src="ver-activos.js"></script>
     <script src="chatbot.js"></script>
